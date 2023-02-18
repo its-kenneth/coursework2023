@@ -31,7 +31,7 @@ def main():
         get_data(
             "Lazada",
             "https://www.lazada.sg/products/apple-iphone-13-mini-i1987645595-s10763214559.html",
-            "span.pdp-price.pdp-price_type_bold.pdp-price_color_orange.pdp-price_size_l",
+            "div.pqTWkA",
         ),
     ]
     print(results)
