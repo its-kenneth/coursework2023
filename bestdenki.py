@@ -1,15 +1,17 @@
 import httpx
 from selectolax.parser import HTMLParser
 from bs4 import BeautifulSoup
-
-
-response = "https://www.bestdenki.com.sg/it-mobile/apple/iphone.html"
+import requests
+response = ""
+search_item = input("Search an item: ")
+best_instant = "https://www.bestdenki.com.sg/instantsearch/result/?q={}".format(search_item) 
+response = requests.get(best_instant)
+response = response.url
 name_selector = "div.webmodeldescription"
 price_selector = "span.price"
-link_selector = "a.product-item-link"
 
 
-def get_data(url,name_selector,price_selector,link_selector):
+def get_data(url,name_selector,price_selector,):
     resp = httpx.get(
         url,
         headers={
@@ -17,12 +19,15 @@ def get_data(url,name_selector,price_selector,link_selector):
         }
     )
     html = HTMLParser(resp.text)
+    #GET NAME & PRICE
     name = html.css_first(name_selector).text().strip()
     price = html.css_first(price_selector).text().strip()
-    code_link = html.css_first(link_selector).text().strip()
-    soup = BeautifulSoup(f"<a {code_link}>link text</a>", 'html.parser')
-    link = soup.a['href']
-    return link
-    #return {'name ': name,'price ' : price,'link ': link}
+    #GET LINK
+    soup = BeautifulSoup(resp, 'html.parser')
+    # Find the first anchor tag with class="product-item-link"
+    product_link = soup.find('a', {'class': 'product-item-link'})
+    # Extract the href attribute value
+    link = product_link['href']
+    return {'name ': name,'price ' : price,'link ': link}
 
-print(get_data(response,name_selector,price_selector,link_selector))
+print(get_data(response,name_selector,price_selector))
