@@ -39,5 +39,19 @@ def get_data(search_item):
         else: 
             break
     return denki_list
+cheapest_info = []
+def get_cheapest(search_item):
+    all = get_data(search_item)
+    cheapest_item = all[2]
+    for z in all:
+        price = float(z['price '].replace('$', '').replace(',',''))
+        cheapest_price = float(cheapest_item['price '].replace('$', '').replace(',',''))
+        if price < cheapest_price:
+            cheapest_item = z
+    cheapest_info.append(cheapest_item['name '])
+    cheapest_info.append(float(cheapest_price))
+    cheapest_info.append(cheapest_item['link '])
+    return cheapest_info
 
-print(get_data("iPhone 13"))
+print(get_cheapest("iPhone 13"))
+
