@@ -27,25 +27,26 @@ def get_data(search_item):
     #HTML PARSER
     soup = BeautifulSoup(resp, 'html.parser')
     # Find the first image link that has the class="product-item-link"
-    link_list = (soup.find_all('a', {'class': 'btn btn-action btn_sm'}))
+    link_list = soup.find_all(('a'), {'class': "product-img"})
+    #print(link_list)
     limit = 5
     for x in link_list:
         if limit > 0:
             name = name_list[(5-limit)].text().strip()
             price = price_list[(5-limit)].text().strip()
             limit -= 1
-            link = (x['href']).replace('//www','www')
-            norman_list.append( {'name ': name,'price ' : price,'link ': link,})
+            link = (x['href'])
+            norman_list.append( {'name ': name,'price ' : price.replace('S',''),'link ': link,})
         else: 
             break
     return norman_list
 cheapest_info = []
 def get_cheapest(search_item):
     all = get_data(search_item)
-    cheapest_item = all[4]
+    cheapest_item = all[0]
     for z in all:
-        price = float(z['price '].replace('S$', '').replace(',',''))
-        cheapest_price = float(cheapest_item['price '].replace('S$', '').replace(',',''))
+        price = float(z['price '].replace('$', '').replace(',',''))
+        cheapest_price = float(cheapest_item['price '].replace('$', '').replace(',',''))
         if price < cheapest_price:
             cheapest_item = z
     cheapest_info.append(cheapest_item['name '])
@@ -53,5 +54,5 @@ def get_cheapest(search_item):
     cheapest_info.append(cheapest_item['link '])
     return cheapest_info
 
-print(get_cheapest("iPhone 13"))
+print(get_cheapest("TV"))
 
