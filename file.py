@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 
 response = ""
 #search_item = input("Search an item: ")
-norman_list = []
 
 def get_norman(search_item):    
     norman_link = "https://www.harveynorman.com.sg/index.php?subcats=Y&status=A&pshort=N&pfull=N&pname=Y&pkeywords=Y&search_performed=Y&q={}+14&dispatch=products.search".format(search_item) #generate generic link
@@ -33,6 +32,7 @@ def get_norman(search_item):
         limit = 5
     else: 
         limit = len(link_list)
+    norman_list = []
     for x in link_list:
         if limit > 0:
             name = name_list[(5-limit)].text().strip()
@@ -47,8 +47,6 @@ def get_norman(search_item):
 
 response = ""
 #search_item = input("Search an item: ")
-denki_list = []
-
 def get_denki(search_item):
     best_instant = "https://www.bestdenki.com.sg/instantsearch/result/?q={}".format(search_item) #generate generic link
     response = requests.get(best_instant) #get redirected link
@@ -74,6 +72,7 @@ def get_denki(search_item):
         limit = 5
     else: 
         limit = len(link_list)
+    denki_list = []
     for x in link_list:
         if limit > 0:
             name = name_list[(5-limit)].text().strip()
@@ -88,7 +87,8 @@ def get_denki(search_item):
 cheapest_info = []
 def get_cheapest(search_item):
     all = get_norman(search_item) + get_denki(search_item)
-    print(all)
+    cheapest_info = []
+    #print(all)
     cheapest_item = all[random.randint(0,len(all)-1)]
     for z in all:
         price = float(z['price '].replace('$', '').replace(',',''))
