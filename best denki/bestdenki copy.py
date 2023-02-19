@@ -7,7 +7,7 @@ response = ""
 #search_item = input("Search an item: ")
 denki_list = []
 
-def get_data(search_item):
+def get_denki(search_item):
     best_instant = "https://www.bestdenki.com.sg/instantsearch/result/?q={}".format(search_item) #generate generic link
     response = requests.get(best_instant) #get redirected link
     response = response.url #url
@@ -41,7 +41,7 @@ def get_data(search_item):
     return denki_list
 cheapest_info = []
 def get_cheapest(search_item):
-    all = get_data(search_item)
+    all = get_denki(search_item)
     cheapest_item = all[2]
     for z in all:
         price = float(z['price '].replace('$', '').replace(',',''))
