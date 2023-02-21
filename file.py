@@ -38,7 +38,7 @@ def get_norman(search_item):
                 name = name_list[(5-limit)].text().strip()
                 price = price_list[(5-limit)].text().strip()
                 limit -= 1
-                link = (x['href']).replace('//www','www')
+                link = (x['href']).replace('//www','www').replace("www.","https://www.")
                 norman_list.append( {'name ': name,'price ' : price.replace('S',''),'link ': link,})
             else: 
                 break
@@ -106,7 +106,7 @@ def get_cheapest(search_item):
         return cheapest_info
     return "Please enter another item"
 
-print(get_cheapest("b"))
+#print(get_cheapest("b"))
 #print(get_cheapest("Air Conditioner"))
 #print(get_cheapest("Samsung Galaxy"))
 #print(get_cheapest("iPhone 14"))
